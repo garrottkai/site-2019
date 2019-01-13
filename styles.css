@@ -70,16 +70,20 @@ a:visited {
     display: block;
 }
 
+.nav-box {
+    width: 100%;
+}
+
 .navs {
     /* width: 100%; */
     display: flex;
     flex-direction: row;
-    border: 1px solid white;
 }
 
 .navs > li {
     flex: 1;
     list-style-type: none;
+    text-align: center;
 }
 
 .about, .cv, .earth {
