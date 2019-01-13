@@ -1,0 +1,86 @@
+#container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+}
+
+#overlay {
+
+}
+
+body {
+    color: #ffffff;
+    font-family: 'Oxygen', sans-serif;
+}
+
+h1, h2 {
+    font-weight: 300;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #ffffff
+}
+
+.main {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200vh;
+    width: 100%;
+    padding: 10%;
+}
+
+.heading-box {
+    width: 100%;
+    padding: inherit;
+    /* height: 100vh; */
+    flex: 0.5;
+}
+
+.heading-icon {
+    width: 15%;
+    max-height: 253;
+}
+
+.heading-text {
+}
+
+.navs {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid white;
+}
+
+.navs > li {
+    flex: 1;
+    list-style-type: none;
+}
+
+.about, .cv, .earth {
+
+}
+
+.subheading-box {
+
+}
+
+.content {
+
+}
