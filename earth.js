@@ -23,8 +23,8 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
- var stats = new Stats();
- document.body.appendChild(stats.dom);
+// var stats = new Stats();
+// document.body.appendChild(stats.dom);
 
 //var lighting = new THREE.PointLight(0x89E3FF, 0.1, 0);
 var texture = new THREE.TextureLoader().load('assets/elevation.png');
@@ -87,7 +87,7 @@ function animate() {
   mesh.rotation.y += 0.01;
 
   renderer.render(scene, camera);
-  stats.update();
+//  stats.update();
 }
 
 animate();
