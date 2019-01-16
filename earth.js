@@ -50,7 +50,7 @@ function move(element) {
     if(slider !== null && handle !== null) {
 
         let pos;
-        let tryPos = mouseY - handleY;
+        let tryPos = mouseY;
         console.log('tryPos',tryPos)
         if(tryPos < sliderTop) {
             pos = sliderTop;
@@ -60,7 +60,7 @@ function move(element) {
             pos = tryPos;
         }
         console.log(pos + 'px')
-        handle.style.top = pos + 'px';
+        handle.style.top = pos - sliderTop + 'px';
     }
 }
 
