@@ -12,8 +12,6 @@ var nearClippingPlane = 0.1;
 var farClippingPlane = 5000;
 var camera = new THREE.PerspectiveCamera(fov, aspect, nearClippingPlane, farClippingPlane);
 camera.position.set(0, 0, 30);
-// var controls = new THREE.OrbitControls(camera);
-// controls.update();
 
 window.addEventListener( 'resize', onWindowResize, false );
 
