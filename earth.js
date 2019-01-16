@@ -17,11 +17,60 @@ camera.position.set(0, 0, 30);
 
 window.addEventListener( 'resize', onWindowResize, false );
 
+
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
+
+var slider = null;
+var handle = null;
+var mouseY = 0;
+var handleY = 0;
+var sliderTop = null;
+var sliderBot = null;
+
+document.getElementById('slider').onmousedown = function () {
+    start(this);
+};
+
+function start(element) {
+    console.log('slide', element.offsetTop);
+    slider = element;
+    sliderTop = element.offsetTop;
+    sliderBot = sliderTop + 200;
+    handle = element.querySelector('#handle');
+    handleY = mouseY - handle.offsetTop;
+}
+
+function move(element) {
+    mouseY = element.pageY;
+
+    if(slider !== null && handle !== null) {
+
+        let pos;
+        let tryPos = mouseY - handleY;
+        console.log('tryPos',tryPos)
+        if(tryPos < sliderTop) {
+            pos = sliderTop;
+        } else if(tryPos > sliderBot) {
+            pos = sliderBot;
+        } else {
+            pos = tryPos;
+        }
+        console.log(pos + 'px')
+        handle.style.top = pos + 'px';
+    }
+}
+
+function end() {
+    slider = null;
+    handle = null;
+}
+
+document.onmousemove = move;
+document.onmouseup = end;
 
 // var stats = new Stats();
 // document.body.appendChild(stats.dom);

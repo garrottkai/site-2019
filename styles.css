@@ -98,6 +98,29 @@ a:visited {
     padding: 2vh 0;
 }
 
+.slider {
+    position: fixed;
+    top: 40vh;
+    left: 50px;
+    width: 25px;
+    height: 200px;
+}
+
+.bar {
+    position: absolute;
+    height: 100%;
+    width: 5px;
+    margin-left: 10px;
+    background-color: #888888;
+}
+
+.handle {
+    position: relative;
+    background-color: #ffffff;
+    height: 25px;
+    width: 25px;
+}
+
 .divider {
     width: 40%;
     border-top: 2px solid #ffffff;
