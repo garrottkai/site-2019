@@ -24,54 +24,6 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-var slider = null;
-var handle = null;
-var mouseY = 0;
-var handleY = 0;
-var sliderTop = null;
-var sliderBot = null;
-
-document.getElementById('slider').onmousedown = function () {
-    start(this);
-};
-
-function start(element) {
-    console.log('slide', element.offsetTop);
-    slider = element;
-    sliderTop = element.offsetTop;
-    sliderBot = sliderTop + 200;
-    handle = element.querySelector('#handle');
-    handleY = mouseY - handle.offsetTop;
-}
-
-function move(element) {
-    mouseY = element.pageY;
-
-    if(slider !== null && handle !== null) {
-
-        let pos;
-        let tryPos = mouseY;
-        console.log('tryPos',tryPos)
-        if(tryPos < sliderTop) {
-            pos = sliderTop;
-        } else if(tryPos > sliderBot) {
-            pos = sliderBot;
-        } else {
-            pos = tryPos;
-        }
-        console.log(pos + 'px')
-        handle.style.top = pos - sliderTop + 'px';
-    }
-}
-
-function end() {
-    slider = null;
-    handle = null;
-}
-
-document.onmousemove = move;
-document.onmouseup = end;
-
 // var stats = new Stats();
 // document.body.appendChild(stats.dom);
 
@@ -82,6 +34,7 @@ var material = new THREE.MeshBasicMaterial({
 });
 var geometry = new THREE.SphereGeometry(15, 48, 48);
 var mesh = new THREE.Mesh(geometry, material);
+var latitude = 0;
 scene.add(mesh /*, lighting*/ );
 
 // var getArray = (csv) => {
@@ -129,11 +82,68 @@ scene.add(mesh /*, lighting*/ );
 // });
 // //});
 
+
+/*-- Slider for latitude adjustment --*/
+
+var slider = null;
+var handle = null;
+var mouseY = 0;
+var handleY = 0;
+var sliderTop = null;
+var sliderBot = null;
+
+document.getElementById('slider').onmousedown = function () {
+    start(this);
+};
+
+function start(element) {
+    slider = element;
+    sliderTop = element.offsetTop;
+    sliderBot = sliderTop + 200;
+    handle = element.querySelector('#handle');
+    handleY = mouseY - handle.offsetTop;
+}
+
+function move(element) {
+    mouseY = element.pageY;
+
+    if(slider !== null && handle !== null) {
+
+        let pos;
+        let tryPos = mouseY;
+        if(tryPos < sliderTop) {
+            pos = sliderTop;
+        } else if(tryPos > sliderBot) {
+            pos = sliderBot;
+        } else {
+            pos = tryPos;
+        }
+        handle.style.top = pos - sliderTop - /*handle radius:*/12 + 'px';
+        // get latitude degrees from relative slider position
+        // range: 23.5N to 23.5S
+        latitude = (pos - sliderTop - 100) * .235;
+    }
+}
+
+function end() {
+    slider = null;
+    handle = null;
+}
+
+document.onmousemove = move;
+document.onmouseup = end;
+
+/*------------------------------------*/
+
+
 function animate() {
   requestAnimationFrame(animate);
 
   // rotate the model
   mesh.rotation.y += 0.002;
+  // set the latitude angle to whatever the user has defined
+  // need to convert degrees to radians
+  mesh.rotation.x = latitude * (Math.PI / 180);
 
   renderer.render(scene, camera);
 //  stats.update();
