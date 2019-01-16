@@ -45,8 +45,6 @@ a:visited {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* height: 200vh; */
-    /* width: 100%; */
     padding: 5%;
 }
 
@@ -62,8 +60,6 @@ a:visited {
 
 .heading-icon {
     height:inherit;
-    /* width: 20%;
-    max-height: 253; */
 }
 
 .heading-text {
@@ -75,15 +71,22 @@ a:visited {
 }
 
 .navs {
-    /* width: 100%; */
     display: flex;
     flex-direction: row;
+    padding: 0;
 }
 
 .navs > li {
     flex: 1;
     list-style-type: none;
     text-align: center;
+    font-size: 1.2em;
+}
+
+.divider {
+    width: 40%;
+    border-top: 2px solid #ffffff;
+    margin: 9vh 0;
 }
 
 .about, .cv, .earth {
@@ -96,4 +99,9 @@ a:visited {
 
 .content {
 
+}
+
+.footer {
+    font-size: 0.8em;
+    margin-top: 9vh;
 }
