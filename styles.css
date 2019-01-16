@@ -52,8 +52,8 @@ a:visited {
     width: 100%;
     height: 7vh;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 75vh;
 }
@@ -70,17 +70,32 @@ a:visited {
     width: 100%;
 }
 
-.navs {
+.navs-1 {
     display: flex;
     flex-direction: row;
     padding: 0;
 }
 
-.navs > li {
+.navs-1 > li {
     flex: 1;
     list-style-type: none;
     text-align: center;
     font-size: 1.2em;
+}
+
+.navs-2 {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.navs-2 > li {
+    flex: 1;
+    list-style-type: none;
+    text-align: center;
+    font-size: 1em;
+    padding: 2vh 0;
 }
 
 .divider {
@@ -104,4 +119,32 @@ a:visited {
 .footer {
     font-size: 0.8em;
     margin-top: 9vh;
+}
+
+@media (min-width: 992px) {
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .navs-1 {
+        display: none;
+    }
+
+    .navs-2 {
+        display: flex;
+    }
+
+    .divider {
+        margin: 15vh 0;
+    }
+
+}
+
+@media (min-width: 1200px) {
+
+    .navs-2 > li {
+        font-size: 1.2em;
+    }
+
 }
