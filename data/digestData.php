@@ -9,7 +9,7 @@ Author: Kai Garrott <garrottkai@gmail.com>
 
 */
 
-$fileName = 'MOD_NDVI_16_2018-02-18_rgb_360x180.CSV';
+$fileName = 'MOD_NDVI_16_2018-12-19_rgb_360x180.CSV';
 
 /*
 Parse the specifically formatted CSV data files used here.

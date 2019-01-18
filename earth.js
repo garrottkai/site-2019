@@ -1,5 +1,7 @@
 // author: Kai Garrott <garrottkai@gmail.com>
 
+/*---------- Set up scene with globe ----------*/
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').insertBefore(renderer.domElement, document.getElementById('overlay'));
@@ -32,56 +34,98 @@ var material = new THREE.MeshBasicMaterial({
 });
 var geometry = new THREE.SphereGeometry(15, 48, 48);
 var mesh = new THREE.Mesh(geometry, material);
-var latitude = 0;
+var latitude = 0; // this is used when the scene is rendered
 scene.add(mesh /*, lighting*/ );
 
-// var getArray = (csv) => {
-//   let lines = csv.split('\n');
-//   lines.map(line => line.split(','));
-//   return lines;
-// };
+/*------- Parse data and display on globe -------*/
 
-// var addData = (data) => {
-//   //var dataGeometry = new THREE.Geometry();
-//   var dataMaterial = new THREE.MeshBasicMaterial({
-//     color: 0xFFFFFF
-//   });
-//   //var dataCylinder = new THREE.Mesh(new THREE.CylinderBufferGeometry(.1, .1, 16, 5, 5));
-//   var dataCylinder = new THREE.CylinderBufferGeometry(.1, .1, 16, 5, 5);
-//   var allData = [];
-//
-//   data.forEach(point => {
-//     let [lat, long, val] = point;
-//     let phi = (Math.PI / 180) * lat;
-//     let theta = (Math.PI / 180) * (long - 180);
-//
-//     let x = -16 * Math.cos(phi) * Math.cos(theta);
-//     let y = 16 * Math.sin(phi);
-//     let z = 16 * Math.cos(phi) * Math.sin(theta);
-//
-//     let dataVector = new THREE.Vector3(x, y, z);
-//     dataCylinder.position = dataVector;
-//     dataCylinder.lookAt(new THREE.Vector3(0, 0, 0));
-//     //dataGeometry.mergeMesh(dataCylinder);
-//     let dataMesh = new THREE.Mesh(dataCylinder, [new THREE.MeshBasicMaterial()]);
-//     allData.push(dataMesh);
-//   });
-//
-//   allData.forEach(item => {
-//     scene.add(item);
-//   })
-//
-// };
+// split csv into 2d array of points
+var getArray = (csv) => {
+  let lines = csv.split('\n');
+  let points = lines.map(line => line.split(','));
+  return points;
+};
 
-// //$(document).ready(() => {
-// jQuery.get('data/data.csv', data => {
-//   data = getArray(data);
-//   addData(data);
-// });
-// //});
+var addData = (data) => {
+  // //var dataGeometry = new THREE.Geometry();
+  // var dataMaterial = new THREE.MeshBasicMaterial({
+  //   color: 0xFFFFFF
+  // });
+  // //var dataCylinder = new THREE.Mesh(new THREE.CylinderBufferGeometry(.1, .1, 16, 5, 5));
+  // var dataCylinder = new THREE.CylinderBufferGeometry(.1, .1, 16, 5, 5);
+  // var allData = [];
+  //
+  // data.forEach(point => {
+  //   let [lat, long, val] = point;
+  //   let phi = (Math.PI / 180) * lat;
+  //   let theta = (Math.PI / 180) * (long - 180);
+  //
+  //   let x = -16 * Math.cos(phi) * Math.cos(theta);
+  //   let y = 16 * Math.sin(phi);
+  //   let z = 16 * Math.cos(phi) * Math.sin(theta);
+  //
+  //   let dataVector = new THREE.Vector3(x, y, z);
+  //   dataCylinder.position = dataVector;
+  //   dataCylinder.lookAt(new THREE.Vector3(0, 0, 0));
+  //   //dataGeometry.mergeMesh(dataCylinder);
+  //   let dataMesh = new THREE.Mesh(dataCylinder, [new THREE.MeshBasicMaterial()]);
+  //   allData.push(dataMesh);
+  // });
+  //
+  // allData.forEach(item => {
+  //   scene.add(item);
+  // })
+
+  var positions = new Float32Array(data.length * 3);
+  var dataGeometry = new THREE.BufferGeometry();
+
+  data.forEach(point => {
+      let [lat, long, val] = point;
+        let phi = (Math.PI / 180) * lat;
+        let theta = (Math.PI / 180) * (long - 180);
+
+        let x = -16 * Math.cos(phi) * Math.cos(theta);
+        let y = 16 * Math.sin(phi);
+        let z = 16 * Math.cos(phi) * Math.sin(theta);
+
+        let pointVector = new THREE.Vector3(x, y, z).normalize();
+
+        pointVector.multiplyScalar(16)
+
+        let end = positions.length - 1;
+
+        positions[end + 1] = pointVector.x;
+        positions[end + 2] = pointVector.y;
+        positions[end + 3] = pointVector.z;
+  });
+
+  dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  let loader = new THREE.TextureLoader();
+  var pointMap = loader.load('assets/circle.png');
+
+  var pointMaterial = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 8,
+    map: pointMap,
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  });
+
+  let pointSystem = new THREE.Points(dataGeometry, pointMaterial);
+  scene.add(pointSystem);
+
+};
+
+//$(document).ready(() => {
+jQuery.get('data/data.csv', data => {
+  data = getArray(data);
+  addData(data);
+});
+//});
 
 
-/*-- Slider for latitude adjustment --*/
+/*------- Slider for latitude adjustment -------*/
 
 var slider = null;
 var handle = null;
@@ -131,7 +175,7 @@ function end() {
 document.onmousemove = move;
 document.onmouseup = end;
 
-/*------------------------------------*/
+/*---------------------------------------------*/
 
 
 function animate() {
