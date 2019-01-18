@@ -35,7 +35,7 @@ var material = new THREE.MeshBasicMaterial({
 var geometry = new THREE.SphereGeometry(15, 48, 48);
 var mesh = new THREE.Mesh(geometry, material);
 var latitude = 0; // this is used when the scene is rendered
-scene.add(mesh /*, lighting*/ );
+//scene.add(mesh /*, lighting*/ );
 
 /*------- Parse data and display on globe -------*/
 
@@ -43,6 +43,7 @@ scene.add(mesh /*, lighting*/ );
 var getArray = (csv) => {
   let lines = csv.split('\n');
   let points = lines.map(line => line.split(','));
+  points = points.map(point => point.map(val => Number(val)))
   return points;
 };
 
@@ -79,26 +80,31 @@ var addData = (data) => {
   var positions = new Float32Array(data.length * 3);
   var dataGeometry = new THREE.BufferGeometry();
 
-  data.forEach(point => {
+  for (let i = 0; i < data.length; i ++) {
+
+      let point = data[i];
       let [lat, long, val] = point;
-        let phi = (Math.PI / 180) * lat;
-        let theta = (Math.PI / 180) * (long - 180);
 
-        let x = -16 * Math.cos(phi) * Math.cos(theta);
-        let y = 16 * Math.sin(phi);
-        let z = 16 * Math.cos(phi) * Math.sin(theta);
+      if(lat == undefined || long == undefined || val == undefined) continue;
 
-        let pointVector = new THREE.Vector3(x, y, z).normalize();
+      let phi = (Math.PI / 180) * lat;
+      let theta = (Math.PI / 180) * (long - 180);
+      let x = -16 * Math.cos(phi) * Math.cos(theta);
+      let y = 16 * Math.sin(phi);
+      let z = 16 * Math.cos(phi) * Math.sin(theta);
 
-        pointVector.multiplyScalar(16)
+      let pointVector = new THREE.Vector3(x, y, z)//.normalize();
 
-        let end = positions.length - 1;
+      //pointVector.multiplyScalar(16)
 
-        positions[end + 1] = pointVector.x;
-        positions[end + 2] = pointVector.y;
-        positions[end + 3] = pointVector.z;
-  });
+      let base = ((i + 1) * 3) - 3;
 
+      positions[base] = pointVector.x;
+      positions[base + 1] = pointVector.y;
+      positions[base + 2] = pointVector.z;
+  }
+
+console.log(positions)
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 
   let loader = new THREE.TextureLoader();
@@ -106,7 +112,7 @@ var addData = (data) => {
 
   var pointMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
-    size: 8,
+    size: 1,
     map: pointMap,
     blending: THREE.AdditiveBlending,
     transparent: true
