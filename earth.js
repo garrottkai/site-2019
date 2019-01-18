@@ -85,8 +85,8 @@ var addData = (data) => {
 
       let point = data[i];
       let [lat, long, val] = point;
-
-      //if(lat == undefined || long == undefined || val == undefined) continue;
+      // is there a better way to get rid of the last, useless zero?
+      if(lat == undefined || long == undefined || val == undefined) continue;
 
       let phi = (Math.PI / 180) * lat;
       let theta = (Math.PI / 180) * (long - 180);
@@ -96,7 +96,7 @@ var addData = (data) => {
 
       let pointVector = new THREE.Vector3(x, y, z).normalize();
 
-      pointVector.multiplyScalar(15.1)
+      pointVector.multiplyScalar(15)
 
       let base = ((i + 1) * 3) - 3;
 
@@ -112,7 +112,7 @@ var addData = (data) => {
 
   var pointMaterial = new THREE.PointsMaterial({
     color: 0x00ff00,
-    size: 0.1,
+    size: 0.2,
     map: pointMap,
     blending: THREE.AdditiveBlending,
     transparent: false
@@ -192,14 +192,15 @@ document.onmouseup = end;
 function animate() {
   requestAnimationFrame(animate);
 
-  // rotate the model
-  mesh.rotation.y += 0.002;
-  pointSystem.rotation.y += 0.002;
-  // set the latitude angle to whatever the user has defined
-  // need to convert degrees to radians
-  mesh.rotation.x = latitude * (Math.PI / 180);
-  pointSystem.rotation.x = latitude * (Math.PI / 180);
-
+  if(mesh && pointSystem) { // don't rotate until everything is ready
+      // rotate the model
+      mesh.rotation.y += 0.002;
+      pointSystem.rotation.y += 0.002;
+      // set the latitude angle to whatever the user has defined
+      // need to convert degrees to radians
+      mesh.rotation.x = latitude * (Math.PI / 180);
+      pointSystem.rotation.x = latitude * (Math.PI / 180);
+  }
   renderer.render(scene, camera);
 //  stats.update();
 }
