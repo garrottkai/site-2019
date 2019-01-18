@@ -35,7 +35,8 @@ var material = new THREE.MeshBasicMaterial({
 var geometry = new THREE.SphereGeometry(15, 48, 48);
 var mesh = new THREE.Mesh(geometry, material);
 var latitude = 0; // this is used when the scene is rendered
-//scene.add(mesh /*, lighting*/ );
+var pointSystem; // used later for data points
+scene.add(mesh /*, lighting*/ );
 
 /*------- Parse data and display on globe -------*/
 
@@ -85,17 +86,17 @@ var addData = (data) => {
       let point = data[i];
       let [lat, long, val] = point;
 
-      if(lat == undefined || long == undefined || val == undefined) continue;
+      //if(lat == undefined || long == undefined || val == undefined) continue;
 
       let phi = (Math.PI / 180) * lat;
       let theta = (Math.PI / 180) * (long - 180);
       let x = -16 * Math.cos(phi) * Math.cos(theta);
-      let y = 16 * Math.sin(phi);
+      let y = -16 * Math.sin(phi);
       let z = 16 * Math.cos(phi) * Math.sin(theta);
 
-      let pointVector = new THREE.Vector3(x, y, z)//.normalize();
+      let pointVector = new THREE.Vector3(x, y, z).normalize();
 
-      //pointVector.multiplyScalar(16)
+      pointVector.multiplyScalar(15.1)
 
       let base = ((i + 1) * 3) - 3;
 
@@ -104,21 +105,25 @@ var addData = (data) => {
       positions[base + 2] = pointVector.z;
   }
 
-console.log(positions)
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 
   let loader = new THREE.TextureLoader();
   var pointMap = loader.load('assets/circle.png');
 
   var pointMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 1,
+    color: 0x00ff00,
+    size: 0.1,
     map: pointMap,
     blending: THREE.AdditiveBlending,
-    transparent: true
+    transparent: false
   });
 
-  let pointSystem = new THREE.Points(dataGeometry, pointMaterial);
+  // let geo = new THREE.BufferGeometry();
+  // geo.mergeMesh(mesh);
+  // geo.mergeMesh(new THREE.Mesh(dataGeometry));
+  // scene.add(geo)
+
+  pointSystem = new THREE.Points(dataGeometry, pointMaterial);
   scene.add(pointSystem);
 
 };
@@ -189,9 +194,11 @@ function animate() {
 
   // rotate the model
   mesh.rotation.y += 0.002;
+  pointSystem.rotation.y += 0.002;
   // set the latitude angle to whatever the user has defined
   // need to convert degrees to radians
   mesh.rotation.x = latitude * (Math.PI / 180);
+  pointSystem.rotation.x = latitude * (Math.PI / 180);
 
   renderer.render(scene, camera);
 //  stats.update();
