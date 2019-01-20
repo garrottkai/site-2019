@@ -28,15 +28,15 @@ function onWindowResize() {
 // document.body.appendChild(stats.dom);
 
 //var lighting = new THREE.PointLight(0x89E3FF, 0.1, 0);
-var texture = new THREE.TextureLoader().load('assets/elevation.png');
-var material = new THREE.MeshBasicMaterial({
-  map: texture,
-});
+// var texture = new THREE.TextureLoader().load('assets/elevation.png');
+// var material = new THREE.MeshBasicMaterial({
+//   map: texture,
+// });
 var geometry = new THREE.SphereGeometry(15, 48, 48);
-var mesh = new THREE.Mesh(geometry, material);
+//var mesh = new THREE.Mesh(geometry, material);
 var latitude = 0; // this is used when the scene is rendered
 var pointSystem; // used later for data points
-scene.add(mesh /*, lighting*/ );
+//scene.add(mesh /*, lighting*/ );
 
 /*------- Parse data and display on globe -------*/
 
@@ -79,7 +79,25 @@ var addData = (data) => {
   // })
 
   var positions = new Float32Array(data.length * 3);
+  //var colors = new Uint32Array(data.length);
+  var colors = new Uint32Array(data.length * 3);
   var dataGeometry = new THREE.BufferGeometry();
+
+  // utility function for generating colors along a gradient based on the vegetation value from 0 to 1
+  var getColor = val => {
+    let lowR = 0, lowG = 0, lowB = 255;
+    let highR = 0, highG = 255, highB = 0;
+
+    let outR = (highR - lowR) * val + lowR;
+    let outG = (highG - lowG) * val + lowG;
+    let outB = (highB - lowB) * val + lowB;
+
+    return {
+        r: outR,
+        g: outG,
+        b: outB
+    }
+  }
 
   for (let i = 0; i < data.length; i ++) {
 
@@ -96,26 +114,47 @@ var addData = (data) => {
 
       let pointVector = new THREE.Vector3(x, y, z).normalize();
 
-      pointVector.multiplyScalar(15)
+      pointVector.multiplyScalar(15.1);
 
       let base = ((i + 1) * 3) - 3;
 
       positions[base] = pointVector.x;
       positions[base + 1] = pointVector.y;
       positions[base + 2] = pointVector.z;
+
+
+
+
+      //colors[base] = 0xff0000
+      //let color = new THREE.Color(0,255,0);
+      colors[base] = 255;
+      colors[base + 1] = 255;
+      colors[base + 2] = 255;
   }
 
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+  dataGeometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
   let loader = new THREE.TextureLoader();
-  var pointMap = loader.load('assets/circle.png');
+  // var pointMap = loader.load('assets/circle.png');
+  //
+  // var pointMaterial = new THREE.PointsMaterial({
+  //   //color: 0x00ff00,
+  //   size: 0.2,
+  //   map: pointMap,
+  //   blending: THREE.AdditiveBlending,
+  //   transparent: false
+  // });
 
-  var pointMaterial = new THREE.PointsMaterial({
-    color: 0x00ff00,
-    size: 0.2,
-    map: pointMap,
-    blending: THREE.AdditiveBlending,
-    transparent: false
+  let tex = { texture: { value: loader.load( 'assets/circle.png' ), size: 0.2, }};
+  var shaderMaterial = new THREE.ShaderMaterial({
+	uniforms: tex,
+	//vertexShader: document.getElementById( 'vertexshader' ).textContent,
+	//fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+	blending: THREE.AdditiveBlending,
+	depthTest: false,
+	transparent: false,
+	vertexColors: true
   });
 
   // let geo = new THREE.BufferGeometry();
@@ -123,7 +162,7 @@ var addData = (data) => {
   // geo.mergeMesh(new THREE.Mesh(dataGeometry));
   // scene.add(geo)
 
-  pointSystem = new THREE.Points(dataGeometry, pointMaterial);
+  pointSystem = new THREE.Points(dataGeometry, /*pointMaterial*/ shaderMaterial);
   scene.add(pointSystem);
 
 };
@@ -192,13 +231,13 @@ document.onmouseup = end;
 function animate() {
   requestAnimationFrame(animate);
 
-  if(mesh && pointSystem) { // don't rotate until everything is ready
+  if(/*mesh && */pointSystem) { // don't rotate until everything is ready
       // rotate the model
-      mesh.rotation.y += 0.002;
+      //mesh.rotation.y += 0.002;
       pointSystem.rotation.y += 0.002;
       // set the latitude angle to whatever the user has defined
       // need to convert degrees to radians
-      mesh.rotation.x = latitude * (Math.PI / 180);
+      //mesh.rotation.x = latitude * (Math.PI / 180);
       pointSystem.rotation.x = latitude * (Math.PI / 180);
   }
   renderer.render(scene, camera);
