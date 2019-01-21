@@ -122,14 +122,13 @@ var addData = (data) => {
       positions[base + 1] = pointVector.y;
       positions[base + 2] = pointVector.z;
 
-
-
+      let color = getColor(val);
 
       //colors[base] = 0xff0000
       //let color = new THREE.Color(0,255,0);
-      colors[base] = 255;
-      colors[base + 1] = 255;
-      colors[base + 2] = 255;
+      colors[base] = color.r;
+      colors[base + 1] = color.g;
+      colors[base + 2] = color.b;
   }
 
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -146,7 +145,7 @@ var addData = (data) => {
   //   transparent: false
   // });
 
-  let tex = { texture: { value: loader.load( 'assets/circle.png' ), size: 0.2, }};
+  let tex = { texture: { value: loader.load( 'assets/circle.png' ), /*size: 0.2,*/ }};
   var shaderMaterial = new THREE.ShaderMaterial({
 	uniforms: tex,
 	//vertexShader: document.getElementById( 'vertexshader' ).textContent,
