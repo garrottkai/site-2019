@@ -80,7 +80,7 @@ var addData = (data) => {
 
   var positions = new Float32Array(data.length * 3);
   //var colors = new Uint32Array(data.length);
-  var colors = new Uint32Array(data.length * 3);
+  var colors = new Float32Array(data.length * 3);
   var dataGeometry = new THREE.BufferGeometry();
 
   // utility function for generating colors along a gradient based on the vegetation value from 0 to 1
@@ -145,11 +145,38 @@ var addData = (data) => {
   //   transparent: false
   // });
 
-  let tex = { texture: { value: loader.load( 'assets/circle.png' ), /*size: 0.2,*/ }};
+  let vertexShader = `
+
+    attribute float size;
+  	varying vec3 vColor;
+
+  	  void main() {
+  		vColor = color;
+  		vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+  		gl_PointSize = 4.0;
+  		gl_Position = projectionMatrix * mvPosition;
+  	  }
+
+  `;
+
+  let fragmentShader = `
+
+      uniform sampler2D texture;
+      varying vec3 vColor;
+
+      void main() {
+          gl_FragColor = vec4(vColor, 1.0);
+          gl_FragColor = gl_FragColor * texture2D(texture, gl_PointCoord);
+      }
+
+  `;
+
+  let uniforms = { texture: { value: loader.load( 'assets/circle.png' ), /*size: 0.2,*/ }};
+
   var shaderMaterial = new THREE.ShaderMaterial({
-	uniforms: tex,
-	//vertexShader: document.getElementById( 'vertexshader' ).textContent,
-	//fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+	uniforms: uniforms,
+	vertexShader,
+	fragmentShader,
 	blending: THREE.AdditiveBlending,
 	depthTest: false,
 	transparent: false,
