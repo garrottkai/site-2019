@@ -85,17 +85,17 @@ var addData = (data) => {
 
   // utility function for generating colors along a gradient based on the vegetation value from 0 to 1
   var getColor = val => {
-    let lowR = 0, lowG = 0, lowB = 255;
-    let highR = 0, highG = 255, highB = 0;
+    let lowR = 236, lowG = 224, lowB = 215;
+    let highR = 11, highG = 36, highB = 3;
 
     let outR = (highR - lowR) * val + lowR;
     let outG = (highG - lowG) * val + lowG;
     let outB = (highB - lowB) * val + lowB;
 
     return {
-        r: outR,
-        g: outG,
-        b: outB
+        r: outR < 255 ? Math.round(outR) : 255,
+        g: outG < 255 ? Math.round(outG) : 255,
+        b: outB < 255 ? Math.round(outB) : 255
     }
   }
 
@@ -106,6 +106,7 @@ var addData = (data) => {
       // is there a better way to get rid of the last, useless zero?
       if(lat == undefined || long == undefined || val == undefined) continue;
 
+      // get vectors from lat/long pairs
       let phi = (Math.PI / 180) * lat;
       let theta = (Math.PI / 180) * (long - 180);
       let x = -16 * Math.cos(phi) * Math.cos(theta);
@@ -122,8 +123,10 @@ var addData = (data) => {
       positions[base + 1] = pointVector.y;
       positions[base + 2] = pointVector.z;
 
-      let color = getColor(val);
-
+      let rgb = getColor(val);
+      let color = new THREE.Color();
+      color.setRGB(rgb.r, rgb.g, rgb.b);
+      //console.log(color)
       //colors[base] = 0xff0000
       //let color = new THREE.Color(0,255,0);
       colors[base] = color.r;
