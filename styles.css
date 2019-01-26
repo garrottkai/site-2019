@@ -72,9 +72,9 @@ a:visited {
     height:inherit;
 }
 
-.heading-text {
+/* .heading-text {
     display: block;
-}
+} */
 
 .nav-box {
     width: 100%;
@@ -152,7 +152,7 @@ a:visited {
 }
 
 .section {
-
+    max-width: 600px;
 }
 
 .about, .cv, .earth {
@@ -170,6 +170,10 @@ a:visited {
 .large {
     font-size: 1.3em;
     text-align: center;
+}
+
+.item {
+    margin-top: 3em;
 }
 
 .footer {
