@@ -198,9 +198,10 @@ function setupSlider() {
 
   }
 
-  let move = (element) => {
+  let move = (event) => {
 
-    mouseY = element.pageY;
+    event.preventDefault();
+    mouseY = event.pageY;
 
     if (slider !== null && handle !== null) {
 
@@ -230,8 +231,9 @@ function setupSlider() {
 
   }
 
-  let end = () => {
+  let end = (event) => {
 
+    event.preventDefault();
     slider = null;
     handle = null;
 
@@ -243,7 +245,8 @@ function setupSlider() {
   document.onmousemove = move;
   document.onmouseup = end;
 
-  document.getElementById('slider').ontouchstart = function() {
+  document.getElementById('slider').ontouchstart = function(event) {
+    event.preventDefault();
     start(this);
   };
   document.ontouchmove = move;
