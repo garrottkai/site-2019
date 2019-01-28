@@ -8,7 +8,6 @@ var renderer,
   pointSystem, // used later for data points
   latitude = 0; // this is used when the scene is rendered
 
-
 function setupScene() {
 
   renderer = new THREE.WebGLRenderer();
@@ -109,7 +108,7 @@ function addData(data) {
 
     let pointVector = new THREE.Vector3(x, y, z).normalize();
 
-    pointVector.multiplyScalar(15.0);
+    pointVector.multiplyScalar(15.1); // 0.1 above background sphere to avoid clipping at oblique angles
 
     let base = ((i + 1) * 3) - 3;
 
@@ -139,7 +138,7 @@ function addData(data) {
   	  void main() {
   		vColor = color;
   		vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-  		gl_PointSize = 6.0;
+  		gl_PointSize = 5.0;
   		gl_Position = projectionMatrix * mvPosition;
   	  }
 
@@ -161,7 +160,7 @@ function addData(data) {
 
   let uniforms = {
     texture: {
-      value: loader.load('assets/circle.png')
+      value: loader.load('assets/hard-circle.png')
     }
   };
 
