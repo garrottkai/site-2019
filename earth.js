@@ -40,7 +40,6 @@ function setupScene() {
   // document.body.appendChild(stats.dom);
 
   //var lighting = new THREE.PointLight(0x89E3FF, 0.1, 0);
-  let texture = new THREE.TextureLoader().load('assets/elevation.png');
   let material = new THREE.MeshBasicMaterial({
     color: 0x000000
   });
@@ -189,11 +188,7 @@ function setupSlider() {
   let sliderTop = null;
   let sliderBot = null;
 
-  document.getElementById('slider').onmousedown = function() {
-    start(this);
-  };
-
-  function start(element) {
+  let start = (element) => {
 
     slider = element;
     sliderTop = element.offsetTop;
@@ -203,7 +198,7 @@ function setupSlider() {
 
   }
 
-  function move(element) {
+  let move = (element) => {
 
     mouseY = element.pageY;
 
@@ -235,25 +230,27 @@ function setupSlider() {
 
   }
 
-  function end() {
+  let end = () => {
 
     slider = null;
     handle = null;
 
   }
 
+  document.getElementById('slider').onmousedown = function() {
+    start(this);
+  };
   document.onmousemove = move;
   document.onmouseup = end;
 
 }
-/*---------------------------------------------*/
-
 
 function animate() {
 
   requestAnimationFrame(animate);
 
   if (mesh && pointSystem) { // don't rotate until everything is ready
+
     // rotate the model
     mesh.rotation.y += 0.002;
     pointSystem.rotation.y += 0.002;
