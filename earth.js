@@ -28,15 +28,16 @@ function onWindowResize() {
 // document.body.appendChild(stats.dom);
 
 //var lighting = new THREE.PointLight(0x89E3FF, 0.1, 0);
-// var texture = new THREE.TextureLoader().load('assets/elevation.png');
-// var material = new THREE.MeshBasicMaterial({
-//   map: texture,
-// });
+var texture = new THREE.TextureLoader().load('assets/elevation.png');
+var material = new THREE.MeshBasicMaterial({
+  //map: texture,
+  color: 0x000000
+});
 var geometry = new THREE.SphereGeometry(15, 48, 48);
-//var mesh = new THREE.Mesh(geometry, material);
+var mesh = new THREE.Mesh(geometry, material);
 var latitude = 0; // this is used when the scene is rendered
 var pointSystem; // used later for data points
-//scene.add(mesh /*, lighting*/ );
+scene.add(mesh /*, lighting*/ );
 
 /*------- Parse data and display on globe -------*/
 
@@ -115,7 +116,7 @@ var addData = (data) => {
 
       let pointVector = new THREE.Vector3(x, y, z).normalize();
 
-      pointVector.multiplyScalar(15.1);
+      pointVector.multiplyScalar(15.0);
 
       let base = ((i + 1) * 3) - 3;
 
@@ -124,11 +125,8 @@ var addData = (data) => {
       positions[base + 2] = pointVector.z;
 
       let rgb = getColor(val);
-      let color = new THREE.Color();
-      color.setRGB(rgb.r, rgb.g, rgb.b);
-      //console.log(color)
-      //colors[base] = 0xff0000
-      //let color = new THREE.Color(0,255,0);
+      // using this to get values between 0 and 1 rather than 0 and 255
+      let color = new THREE.Color(`rgb(${rgb.r},${rgb.g},${rgb.b})`);
       colors[base] = color.r;
       colors[base + 1] = color.g;
       colors[base + 2] = color.b;
@@ -137,16 +135,7 @@ var addData = (data) => {
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
   dataGeometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  let loader = new THREE.TextureLoader();
-  // var pointMap = loader.load('assets/circle.png');
-  //
-  // var pointMaterial = new THREE.PointsMaterial({
-  //   //color: 0x00ff00,
-  //   size: 0.2,
-  //   map: pointMap,
-  //   blending: THREE.AdditiveBlending,
-  //   transparent: false
-  // });
+  // need to manually create shaders to allow individually assigning colors to points
 
   let vertexShader = `
 
@@ -174,24 +163,25 @@ var addData = (data) => {
 
   `;
 
-  let uniforms = { texture: { value: loader.load( 'assets/circle.png' ), /*size: 0.2,*/ }};
+  let loader = new THREE.TextureLoader();
+
+  let uniforms = {
+      texture: {
+          value: loader.load('assets/circle.png')
+      }
+  };
 
   var shaderMaterial = new THREE.ShaderMaterial({
 	uniforms: uniforms,
 	vertexShader,
 	fragmentShader,
 	blending: THREE.AdditiveBlending,
-	depthTest: false,
+	depthTest: true,
 	transparent: false,
 	vertexColors: true
   });
 
-  // let geo = new THREE.BufferGeometry();
-  // geo.mergeMesh(mesh);
-  // geo.mergeMesh(new THREE.Mesh(dataGeometry));
-  // scene.add(geo)
-
-  pointSystem = new THREE.Points(dataGeometry, /*pointMaterial*/ shaderMaterial);
+  pointSystem = new THREE.Points(dataGeometry, shaderMaterial);
   scene.add(pointSystem);
 
 };
@@ -260,13 +250,13 @@ document.onmouseup = end;
 function animate() {
   requestAnimationFrame(animate);
 
-  if(/*mesh && */pointSystem) { // don't rotate until everything is ready
+  if(mesh && pointSystem) { // don't rotate until everything is ready
       // rotate the model
-      //mesh.rotation.y += 0.002;
+      mesh.rotation.y += 0.002;
       pointSystem.rotation.y += 0.002;
       // set the latitude angle to whatever the user has defined
       // need to convert degrees to radians
-      //mesh.rotation.x = latitude * (Math.PI / 180);
+      mesh.rotation.x = latitude * (Math.PI / 180);
       pointSystem.rotation.x = latitude * (Math.PI / 180);
   }
   renderer.render(scene, camera);
