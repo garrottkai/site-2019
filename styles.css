@@ -173,6 +173,22 @@ a:visited {
     text-align: center;
 }
 
+.social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3em;
+}
+
+.social-icons > a {
+    margin: 0 0.5em;
+}
+
+.social-icon {
+    height: 32px;
+    padding: 1em;
+}
+
 .item {
     margin-top: 3em;
 }
