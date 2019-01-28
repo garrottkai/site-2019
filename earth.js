@@ -243,6 +243,12 @@ function setupSlider() {
   document.onmousemove = move;
   document.onmouseup = end;
 
+  document.getElementById('slider').ontouchstart = function() {
+    start(this);
+  };
+  document.ontouchmove = move;
+  document.ontouchend = end;
+
 }
 
 function animate() {
