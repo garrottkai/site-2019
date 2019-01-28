@@ -284,6 +284,6 @@ jQuery.get('data/data.csv', data => {
   addData(data);
 });
 
-setupSlider();
+//setupSlider();
 
 animate();
