@@ -51,9 +51,16 @@ function setupScene() {
 }
 
 // fetch CSV with data
+// also sets the date of the data on the page
+// because I don't care enough to do that more cleanly
 function getArray(csv) {
 
   let lines = csv.split('\n');
+
+  // grab first element in the array (the date)
+  let date = lines.shift();
+  document.getElementById('lastUpdated').textContent = date;
+
   let points = lines.map(line => line.split(','));
   points = points.map(point => point.map(val => Number(val)));
 
@@ -127,7 +134,9 @@ function addData(data) {
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
   dataGeometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  // need to manually create shaders to allow individually assigning colors to points
+  // manually create shaders to allow individually assigning colors to points
+
+  let particleSize = window.innerWidth < 992 ? '3.0' : '4.0';
 
   let vertexShader = `
 
@@ -137,7 +146,7 @@ function addData(data) {
   	  void main() {
   		vColor = color;
   		vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-  		gl_PointSize = 5.0;
+  		gl_PointSize = ${particleSize};
   		gl_Position = projectionMatrix * mvPosition;
   	  }
 
@@ -175,6 +184,9 @@ function addData(data) {
 
   pointSystem = new THREE.Points(dataGeometry, shaderMaterial);
   scene.add(pointSystem);
+
+  // set initial rotation to the W end of the Pacific to avoid showing empty blackness right away
+  pointSystem.rotation.y = -4;
 
 }
 
@@ -261,11 +273,9 @@ function animate() {
   if (mesh && pointSystem) { // don't rotate until everything is ready
 
     // rotate the model
-    mesh.rotation.y += 0.002;
     pointSystem.rotation.y += 0.002;
     // set the latitude angle to whatever the user has defined
     // need to convert degrees to radians
-    mesh.rotation.x = latitude * (Math.PI / 180);
     pointSystem.rotation.x = latitude * (Math.PI / 180);
 
   }
