@@ -9,7 +9,7 @@ Author: Kai Garrott <garrottkai@gmail.com>
 
 */
 
-$fileName = 'MOD_NDVI_16_2018-12-19_rgb_360x180.CSV';
+require_once('fetchData.php');
 
 /*
 Parse the specifically formatted CSV data files used here.
@@ -19,15 +19,15 @@ and consists of 360 decimal measurements, one for each integer longitude value.
 The return value of this function is a CSV string containing the nonzero measurements,
 one per line, in the format: latitude,longitude,measurement
 */
-function parseFile(string $fileName): string {
+function parseFile(string $fileName, $date): string {
 
     $file = file_get_contents($fileName);
 
     // separate on whatever newline characters may be present
     $lines = preg_split('/\r\n|\r|\n/', $file);
 
-    // output to serialize
-    $processed = [];
+    // output to serialize; begins with IS0 date of the data
+    $processed = [$date];
 
     // move from north to south through the array
     $lat = -90;
@@ -61,10 +61,23 @@ function writeFile(string $data): void {
 }
 
 try {
+
     // things actually happen here
-    $output = parseFile($fileName);
-    writeFile($output);
+    $dataDate = fetchData();
+
+    if($dataDate) {
+
+        $output = parseFile('raw.csv', $dataDate);
+        writeFile($output);
+
+    } else {
+
+        echo 'No new data found.';
+
+    }
+
 } catch(Exception $exception) {
     // yell into the void
     echo $exception->getMessage;
+
 }

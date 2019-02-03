@@ -9,47 +9,60 @@ This script is intended to be run by cron at regular intervals
 
 */
 
-// ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_16/MOD_NDVI_16_2019-01-01.CSV.gz
+function fetchData() {
 
-// get first line with date that data was posted
-$dateLine = fgets(fopen('data.csv', 'r'));
+    // get first line with date that data was posted
+    $dateLine = fgets(fopen('data.csv', 'r'));
+    echo 'Date line: ' . $dateLine;
+    $dataDate = new DateTime($dateLine);
+    $now = new DateTime();
+    echo 'Now: ' . $now->format('Y-m-d') . "\n";
+    $elapsed = $now->diff($dataDate);
+    echo 'Elapsed: ' . $elapsed->m . ' months ' . $elapsed->d . ' days' . "\n";
 
-$dataDate = new DateTime($dateLine);
-$now = date('Y-m-d');
+    // only look for new data if the old data is at least 16 days old
+    // this will almost never evaluate false, as data is not normally posted for several weeks after its collection date
+    if($elapsed->m > 0 || $elapsed->d >= 16) {
 
-$elapsed = $now->diff($dataDate);
+        try {
 
-// only look for new data if the old data is at least 16 days old
-// this will almost never evaluate false, as data is not normally posted for several weeks after its collection date
-if($elapsed->d >= 16) {
+            while($dataDate <= $now) {
 
-    try {
+                $dataDate->add(new DateInterval('P1D'));
+                $iso = $dataDate->format('Y-m-d');
+                $uri = 'ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_16/MOD_NDVI_16_' . $iso . '.CSV.gz';
 
-        while($dataDate <= $now) {
+                $curl = curl_init($uri);
+                curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-            $dataDate->add(new DateInterval('P1D'));
-            $iso = $dataDate->format('Y-m-d');
-            $uri = 'ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_16/MOD_NDVI_16_' . $iso . '.CSV.gz';
+                $res = curl_exec($curl);
 
-            $curl = curl_init($uri);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+                if(!$res) {
 
-            $res = curl_exec($curl);
+                    echo 'No data found for ' . $iso . "\n";
+                    continue;
 
-            if(!$res) {
+                }
 
-                continue;
+                echo 'Data found for date: ' . $iso . "\n";
+
+                $unarchived = zlib_decode($res);
+                $raw = fopen('raw.csv', 'w');
+                fwrite($raw, $unarchived);
+                fclose($raw);
+
+                echo 'CSV written' . "\n";
+
+                return $iso;
 
             }
 
-            $csv = $res
+        } catch(Exception $e) {
+
+            throw(new Exception($e->getCode(), $e->getMessage()));
 
         }
-
-    } catch (e) {
-
-        echo(e.getMessage());
-        return;
 
     }
 
