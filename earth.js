@@ -134,7 +134,9 @@ function addData(data) {
   dataGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
   dataGeometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  // need to manually create shaders to allow individually assigning colors to points
+  // manually create shaders to allow individually assigning colors to points
+
+  let particleSize = window.innerWidth < 992 ? '3.0' : '4.0';
 
   let vertexShader = `
 
@@ -144,7 +146,7 @@ function addData(data) {
   	  void main() {
   		vColor = color;
   		vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-  		gl_PointSize = 5.0;
+  		gl_PointSize = ${particleSize};
   		gl_Position = projectionMatrix * mvPosition;
   	  }
 

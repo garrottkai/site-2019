@@ -78,6 +78,7 @@ ul a:hover {
 }
 
 .heading-icon {
+    height: inherit;
     min-height: 7vh; /* this fixes a bug in firefox that caused the image to disappear above the 992px breakpoint */
     padding-left: 5%;
 }
