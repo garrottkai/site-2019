@@ -185,6 +185,9 @@ function addData(data) {
   pointSystem = new THREE.Points(dataGeometry, shaderMaterial);
   scene.add(pointSystem);
 
+  // set initial rotation to the W end of the Pacific to avoid showing empty blackness right away
+  pointSystem.rotation.y = -4;
+
 }
 
 /*------- Slider for latitude adjustment -------*/
@@ -270,11 +273,9 @@ function animate() {
   if (mesh && pointSystem) { // don't rotate until everything is ready
 
     // rotate the model
-    mesh.rotation.y += 0.002;
     pointSystem.rotation.y += 0.002;
     // set the latitude angle to whatever the user has defined
     // need to convert degrees to radians
-    mesh.rotation.x = latitude * (Math.PI / 180);
     pointSystem.rotation.x = latitude * (Math.PI / 180);
 
   }
