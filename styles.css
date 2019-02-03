@@ -203,6 +203,9 @@ ul a:hover {
 }
 
 .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-size: 0.8em;
     margin-top: 9vh;
 }

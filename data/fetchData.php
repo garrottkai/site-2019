@@ -26,7 +26,7 @@ function fetchData() {
 
         try {
 
-            while($dataDate <= $now) {
+            while($dataDate < $now) {
 
                 $dataDate->add(new DateInterval('P1D'));
                 $iso = $dataDate->format('Y-m-d');

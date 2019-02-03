@@ -51,9 +51,16 @@ function setupScene() {
 }
 
 // fetch CSV with data
+// also sets the date of the data on the page
+// because I don't care enough to do that more cleanly
 function getArray(csv) {
 
   let lines = csv.split('\n');
+
+  // grab first element in the array (the date)
+  let date = lines.shift();
+  document.getElementById('lastUpdated').textContent = date;
+
   let points = lines.map(line => line.split(','));
   points = points.map(point => point.map(val => Number(val)));
 
