@@ -4,5 +4,5 @@
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-# 0 0,12 * * * root cd /var/www/html/live/data && php digestData.php > /tmp/modis-live.txt
-0 0,12 * * * root cd /var/www/html/dev/data && php digestData.php > /tmp/modis-dev.txt
+# 0 0,12 * * * root cd /var/www/html/live/scripts && php digestData.php > /tmp/modis-live.txt
+0 0,12 * * * root cd /var/www/html/dev/scripts && php digestData.php > /tmp/modis-dev.txt
