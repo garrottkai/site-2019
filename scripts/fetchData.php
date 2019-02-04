@@ -12,7 +12,7 @@ This script is intended to be run by cron at regular intervals
 function fetchData() {
 
     // get first line with date that data was posted
-    $dateLine = fgets(fopen('data.csv', 'r'));
+    $dateLine = fgets(fopen('../public_html/data/data.csv', 'r'));
     echo 'Date line: ' . $dateLine;
     $dataDate = new DateTime($dateLine);
     $now = new DateTime();
@@ -48,7 +48,7 @@ function fetchData() {
                 echo 'Data found for date: ' . $iso . "\n";
 
                 $unarchived = zlib_decode($res);
-                $raw = fopen('raw.csv', 'w');
+                $raw = fopen('../public_html/data/raw.csv', 'w');
                 fwrite($raw, $unarchived);
                 fclose($raw);
 

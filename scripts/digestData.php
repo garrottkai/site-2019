@@ -72,7 +72,7 @@ function parseFile(string $fileName, string $date): string {
 // create the output CSV file
 function writeFile(string $data): void {
 
-    $file = fopen('data.csv', 'w');
+    $file = fopen('../public_html/data/data.csv', 'w');
     fwrite($file, $data);
     fclose($file);
 
@@ -85,7 +85,7 @@ try {
 
     if($dataDate) {
 
-        $output = parseFile('raw.csv', $dataDate);
+        $output = parseFile('../public_html/data/raw.csv', $dataDate);
         writeFile($output);
 
     } else {
