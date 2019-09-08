@@ -30,7 +30,7 @@ function fetchData() {
 
                 $dataDate->add(new DateInterval('P1D'));
                 $iso = $dataDate->format('Y-m-d');
-                $uri = 'ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_16/MOD_NDVI_16_' . $iso . '.CSV.gz';
+                $uri = 'https://neo.sci.gsfc.nasa.gov/archive/csv/MOD_NDVI_16/MOD_NDVI_16_' . $iso . '.CSV.gz';
 
                 $curl = curl_init($uri);
                 curl_setopt($curl, CURLOPT_TIMEOUT, 30);
