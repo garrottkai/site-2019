@@ -70,7 +70,7 @@ function parseFile(string $fileName, string $date): string {
 }
 
 // create the output CSV file
-function writeFile(string $data): void {
+function writeFile(string $data) {
 
     $file = fopen('../public_html/data/data.csv', 'w');
     fwrite($file, $data);

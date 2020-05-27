@@ -37,8 +37,9 @@ function fetchData() {
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
                 $res = curl_exec($curl);
+                $status = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
 
-                if(!$res) {
+                if($status !== 200) {
 
                     echo 'No data found for ' . $iso . "\n";
                     continue;
