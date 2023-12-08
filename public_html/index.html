@@ -1,194 +1,213 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="description" content="Kai Garrott is a US-based software consultant specializing in React Native mobile app development for Android and iOS." />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description"
+          content="Kai Garrott is a US-based software consultant specializing in React Native mobile app development for Android and iOS."/>
     <script src="https://cdn.jsdelivr.net/npm/three@0.100.0/build/three.min.js"></script>
     <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
     <!-- <script src="lib/stats.js"></script> -->
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="assets/icon.png" />
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="icon" href="assets/icon.png"/>
     <title>Kai Garrott</title>
 </head>
 <body>
-    <div id="container">
-        <div id="overlay"></div>
+<div id="container">
+    <div id="overlay"></div>
+</div>
+<div class="main">
+    <div class="heading-box">
+        <img class="heading-icon" src="assets/initials-white.png" alt="Kai Garrott"/>
+        <!-- <h1 class="heading-text">Kai Garrott</h1> -->
+        <div class="nav-box">
+            <ul class="navs-desktop">
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#cv">Resumé</a>
+                </li>
+                <li>
+                    <a href="#earth">Earth</a>
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="slider" id="slider">
+            <div class="bar" id="bar"></div>
+            <div class="handle" id="handle"></div>
+        </div> -->
     </div>
-    <div class="main">
-        <div class="heading-box">
-            <img class="heading-icon" src="assets/initials-white.png" alt="Kai Garrott"/>
-            <!-- <h1 class="heading-text">Kai Garrott</h1> -->
-            <div class="nav-box">
-                <ul class="navs-desktop">
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#cv">Resumé</a>
-                    </li>
-                    <li>
-                        <a href="#earth">Earth</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- <div class="slider" id="slider">
-                <div class="bar" id="bar"></div>
-                <div class="handle" id="handle"></div>
+    <div class="gradient">
+        <div class="nav-box">
+            <ul class="navs-mobile">
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#cv">Resumé</a>
+                </li>
+                <li>
+                    <a href="#earth">Earth</a>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="about section" id="about">
+            <!-- <div class="subheading-box">
+                <h2>About</h2>
             </div> -->
-        </div>
-        <div class="gradient">
-            <div class="nav-box">
-                <ul class="navs-mobile">
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#cv">Resumé</a>
-                    </li>
-                    <li>
-                        <a href="#earth">Earth</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="divider"></div>
-            <div class="about section" id="about">
-                <!-- <div class="subheading-box">
-                    <h2>About</h2>
-                </div> -->
-                <div class="content">
-                    <p class="large">
-                    I'm Kai Garrott, a software developer currently based in the US. I specialize in building cross-platform mobile apps with React Native.
-                    </p>
-                    <p class="large">
-                    I've been working with React Native since 2017 and have a variety of other development experience, from database design and webservice architecture to UI design and JavaScript frameworks.
-                    </p>
-                    <p class="large">
-                    If you're looking for React Native or other software development services, I'm available for contract.
-                    </p>
-                    <p class="large">
+            <div class="content">
+                <p class="large">
+                    I'm Kai Garrott, a software engineer in the US. I lead agile dev teams and build mobile apps and
+                    microservices.
+                </p>
+                <p class="large">
+                    I've been working with React Native since 2017 and have a variety of other development experience,
+                    from database design and service architecture to UI design and web frameworks.
+                </p>
+                <p class="large">
                     Drop me an email, if you'd like: garrottkai at Google's email provider
-                    </p>
-                    <div class="social-icons">
-                        <a href="https://linkedin.com/in/kai-garrott" target="_blank">
-                            <img class="social-icon" src="assets/linkedin.png" alt="linkedin icon" />
-                        </a>
-                        <a href="https://github.com/garrottkai" target="_blank">
-                            <img class="social-icon" src="assets/github.png" alt="github icon" />
-                        </a>
-                        <a href="https://stackoverflow.com/users/7065839/kai" target="_blank">
-                            <img class="social-icon" src="assets/stackoverflow.png" alt="stackoverflow icon" />
-                        </a>
-                    </div>
+                </p>
+                <div class="social-icons">
+                    <a href="https://linkedin.com/in/kai-garrott" target="_blank">
+                        <img class="social-icon" src="assets/linkedin.png" alt="linkedin icon"/>
+                    </a>
+                    <a href="https://github.com/garrottkai" target="_blank">
+                        <img class="social-icon" src="assets/github.png" alt="github icon"/>
+                    </a>
+                    <a href="https://stackoverflow.com/users/7065839/kai" target="_blank">
+                        <img class="social-icon" src="assets/stackoverflow.png" alt="stackoverflow icon"/>
+                    </a>
                 </div>
             </div>
-            <div class="divider"></div>
-            <div class="cv section" id="cv">
-                <div class="subheading-box">
-                    <h2>Resumé</h2>
+        </div>
+        <div class="divider"></div>
+        <div class="cv section" id="cv">
+            <div class="subheading-box">
+                <h2>Resumé</h2>
+            </div>
+            <div class="content">
+                <div class="item">
+                    <h3>Lead Mobile Engineer</h3>
+                    <h4>Total Wine & More, remote</h4>
+                    <h4>February 2021 - May 2023</h4>
+                    <ul>
+                        <li>
+                            I led an agile team building mobile apps
+                        </li>
+                        <li>
+                            React Native, Go microservices, automated testing
+                        </li>
+                        <li>
+                            Spearheaded development of a business-critical
+                            product from early stages through launch
+                        </li>
+                        <li>
+                            Provided production support in a devops environment
+                        </li>
+                        <li>
+                            Mentored junior developers
+                        </li>
+                        <li>
+                            Served as technical POC for stakeholders and users
+                        </li>
+                    </ul>
                 </div>
-                <div class="content">
-                    <div class="item">
-                        <h3>Contract Senior Mobile Engineer</h3>
-                        <h4>Total Wine & More, remote</h4>
-                        <h4>February 2021 - present</h4>
-                        <ul>
-                            <li>
-                            I build and maintain critical store management apps for a national retail enterprise
-                            </li>
-                            <li>
-                            Primarily using React Native and Golang day to day
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item">
-                        <h3>Software Development Consultant</h3>
-                        <h4>Various clients, remote</h4>
-                        <h4>April 2019 - January 2021</h4>
-                        <ul>
-                            <li>
+                <div class="item">
+                    <h3>Mobile Development Consultant</h3>
+                    <h4>Various clients, remote</h4>
+                    <h4>April 2019 - January 2021</h4>
+                    <ul>
+                        <li>
                             I embedded with dev teams to provide rapid buildouts on schedule
-                            </li>
-                            <li>
+                        </li>
+                        <li>
                             Interfaced with clients to gather, meet & exceed requirements
-                            </li>
-                            <li>
+                        </li>
+                        <li>
                             React.js, React Native, Vue, AWS integration
-                            </li>
-                            <li>
-                            Projects included a globally available fitness platform and multiple early-stage app startups
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item">
-                        <h3>Software Developer</h3>
-                        <h4>Lyra Development / Catapult Global, Albuquerque, NM</h4>
-                        <h4>March 2017 - March 2019</h4>
-                        <ul>
-                            <li>
-                            I provided application development services and team leadership at a startup software consultancy
-                            </li>
-                            <li>
+                        </li>
+                        <li>
+                            Projects included a globally available fitness platform and multiple early-stage app
+                            startups
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>Software Developer</h3>
+                    <h4>Lyra Development / Catapult Global, Albuquerque, NM</h4>
+                    <h4>March 2017 - March 2019</h4>
+                    <ul>
+                        <li>
+                            I provided application development services and team leadership at a startup software
+                            consultancy
+                        </li>
+                        <li>
                             Designed and built an enterprise support ticket and inventory management system
-                            </li>
-                            <li>
+                        </li>
+                        <li>
                             Built and maintained mobile apps using React Native and Android
-                            </li>
-                            <li>
+                        </li>
+                        <li>
                             Gained experience with app frameworks, mobile development, and UI design
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item">
-                        <h3>Technical Coach / Mentor</h3>
-                        <h4>Deep Dive Fullstack, Albuquerque, NM</h4>
-                        <h4>September 2016 - March 2017</h4>
-                        <ul>
-                            <li>
-                            I mentored students learning web languages and frameworks as well as testing and security practices
-                            </li>
-                            <li>
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>Technical Coach / Mentor</h3>
+                    <h4>Deep Dive Fullstack, Albuquerque, NM</h4>
+                    <h4>September 2016 - March 2017</h4>
+                    <ul>
+                        <li>
+                            I mentored students learning web languages and frameworks as well as testing and security
+                            practices
+                        </li>
+                        <li>
                             Developed project management and leadership skills
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item">
-                        <h4>For a PDF copy of my resume, <a href="assets/Kai_Garrott_resume.pdf" target="_blank">please click here</a>.</h4>
-                        <h4>For a CV, please contact me.</h4>
-                    </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h4><a href="assets/Kai_Garrott_resume.pdf" target="_blank">Download as PDF</a>.</h4>
                 </div>
             </div>
-            <div class="divider"></div>
-            <div class="earth section" id="earth">
-                <div class="subheading-box">
-                    <h2>About this site</h2>
-                </div>
-                <div class="content">
-                    <p>
-                    The globe on this page displays a 1x1-degree grid representing the relative amount of vegetation on the Earth's surface.
-                    </p>
-                    <p>
-                    The source dataset, referred to as the NDVI (Normalized Difference Vegetation Index), is collected by NASA's MODIS sensor suite on the TERRA and AQUA Earth-observing satellites. The dataset is generated approximately every 16 days, and is automatically retrieved and processed by a script for display.
-                    </p>
-                    <p>
-                    The model was built in <a href="https://threejs.org">Three.js</a>, a 3D graphics utility for the browser, which provides a convenient API for creating hardware-accelerated animations with WebGL.
-                    </p>
-                    <p>
+        </div>
+        <div class="divider"></div>
+        <div class="earth section" id="earth">
+            <div class="subheading-box">
+                <h2>About this site</h2>
+            </div>
+            <div class="content">
+                <p>
+                    The globe on this page displays a 1x1-degree grid representing the relative amount of vegetation on
+                    the Earth's surface.
+                </p>
+                <p>
+                    The source dataset, referred to as the NDVI (Normalized Difference Vegetation Index), is collected
+                    by NASA's MODIS sensor suite on the TERRA and AQUA Earth-observing satellites. The dataset is
+                    generated approximately every 16 days, and is automatically retrieved and processed by a script for
+                    display.
+                </p>
+                <p>
+                    The model was built in <a href="https://threejs.org">Three.js</a>, a 3D graphics utility for the
+                    browser, which provides a convenient API for creating hardware-accelerated animations with WebGL.
+                </p>
+                <p>
                     You can find the code <a href="https://github.com/garrottkai/site-2019">here</a>.
-                    </p>
-                </div>
+                </p>
             </div>
-            <div class="footer">
-                <p>GIS data last updated <span id="lastUpdated"></span></p>
-                <p>©2020 Kai Garrott</p>
-            </div>
+        </div>
+        <div class="footer">
+            <p>GIS data last updated <span id="lastUpdated"></span></p>
+            <p>©2023 Kai Garrott</p>
         </div>
     </div>
-    <script src="earth.js"></script>
+</div>
+<script src="earth.js"></script>
 </body>
 </html>
